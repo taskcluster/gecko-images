@@ -3,7 +3,8 @@
 
 ### Firefox Build Setup
 # Clone mozilla-central
-hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/mozilla-central/
+# Disabled due to docker push issues
+#hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/mozilla-central/
 
 # Create .mozbuild so mach doesn't complain about this
 mkdir /home/worker/.mozbuild/

@@ -1,5 +1,8 @@
 
-image:
+mozilla-central.hg:
+	wget http://ftp.mozilla.org/pub/mozilla.org/firefox/bundles/mozilla-central.hg
+
+image: mozilla-central.hg
 	docker build -t jonasfj/gecko-builder .
 
 check:

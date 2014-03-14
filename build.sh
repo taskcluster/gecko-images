@@ -10,8 +10,13 @@ test $REPOSITORY  # Should be an hg repository url to pull from
 test $REVISION    # Should be an hg revision to pull down
 test $MOZCONFIG   # Should be a mozconfig file from mozconfig/ folder
 
+### Unbundle mozilla-central
+cd /home/worker;
+hg init mozilla-central;
+cd mozilla-central;
+hg unbundle /home/worker/mozilla-central.hg;
+
 ### Pull, Update and Build
-cd /home/worker/mozilla-central;
 hg pull -r $REVISION $REPOSITORY;
 hg update $REVISION;
 ./mach build;
