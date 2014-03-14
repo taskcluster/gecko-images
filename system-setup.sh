@@ -66,15 +66,6 @@ apt-get install -y                  \
 echo -e '[web]\ncacerts = /etc/ssl/certs/ca-certificates.crt' \
          > /etc/mercurial/hgrc.d/cacerts.rc;
 
-### Firefox Build Setup
-# Clone mozilla-central
-sudo -u worker hg clone https://hg.mozilla.org/mozilla-central/               \
-                        /home/worker/mozilla-central/
-# Create .mozbuild so mach doesn't complain about this
-sudo -u worker mkdir /home/worker/.mozbuild/
-# Create object-folder exists
-sudo -u worker mkdir /home/worker/object-folder/
-
 ### Clean up from setup
 # Remove cached .deb packages. Cached package takes up a lot of space and
 # distributing them to workers is wasteful.
