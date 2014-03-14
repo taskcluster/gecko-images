@@ -3,7 +3,7 @@ MAINTAINER    Jonas Finnemann Jensen <jopsen@gmail.com>
 
 # Run setup-script
 ADD           setup.sh      /tmp/setup.sh
-RUN           ["/tmp/setup.sh"]
+RUN           /tmp/setup.sh
 # Add utilities and configuration
 ADD           mozconfigs/   /home/worker/mozconfigs/
 ADD           build.sh      /home/worker/build.sh
