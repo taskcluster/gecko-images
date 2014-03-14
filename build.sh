@@ -6,12 +6,13 @@
 test `whoami` == 'worker';
 
 ### Check that require variables are defined
-test $REVISION    # Should be a hg revision to pull from mozilla-central
+test $REPOSITORY  # Should be an hg repository url to pull from
+test $REVISION    # Should be an hg revision to pull down
 test $MOZCONFIG   # Should be a mozconfig file from mozconfig/ folder
 
 ### Pull, Update and Build
 cd /home/worker/mozilla-central;
-hg pull -r $REVISION;
+hg pull -r $REVISION $REPOSITORY;
 hg update $REVISION;
 ./mach build;
 
