@@ -1,4 +1,4 @@
-FROM          ubuntu:13.10
+FROM          registry.taskcluster.net/jonasfj/ubuntu
 MAINTAINER    Jonas Finnemann Jensen <jopsen@gmail.com>
 
 # Run system setup script
