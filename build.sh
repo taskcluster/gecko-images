@@ -18,14 +18,16 @@ hg update $REVISION;
 
 ### Make package
 cd /home/worker/object-folder;
-make package;
+make package package-tests;
 
 ### Extract artifacts
 # Navigate to dist/ folder
 cd /home/worker/object-folder/dist;
 # Discard version numbers from packaged files, they just make it hard to write
 # the right filename in the task payload where artifacts are declared
-mv firefox-*.tar.bz2  firefox.tar.bz2
-mv firefox-*.json     firefox.json
+mv *.linux-x86_64.tar.bz2   target.linux-x86_64.tar.bz2
+mv *.linux-x86_64.json      target.linux-x86_64.json
+mv *.tests.zip              target.tests.zip
+
 
 ################################### build.sh ###################################
