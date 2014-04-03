@@ -1,6 +1,5 @@
 #!/bin/bash -ve
 
-
 ### Firefox Build Setup
 # Clone mozilla-central
 hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/mozilla-central/
