@@ -55,6 +55,15 @@ apt-get install -y                  \
   software-properties-common        \
   ;
 
+# Python pip is needed to install virtualenv as used by mozharness later, while
+# this isn't necessary for building I doubt it'll do much harm.
+apt-get install -y                  \
+  python-pip                        \
+  ;
+
+# Install virtualenv for use by mozharness
+pip install virtualenv;
+
 ### Ubuntu 13.10 Configuration
 # For some reason /etc/mercurial/hgrc.d/cacerts.rc is missing from the amd64
 # mercurial package on ubuntu 13.10, a bug as been reported, see: 

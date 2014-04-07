@@ -41,3 +41,15 @@ finished. The `build.sh` script will make sure artifacts are moved to paths:
  * `/home/worker/object-folder/dist/firefox.linux-x86_64.tar.bz2`
  * `/home/worker/object-folder/dist/firefox.linux-x86_64.json`
  * `/home/worker/object-folder/dist/firefox.tests.zip`
+
+
+Status
+------
+
+We can currently build gecko and b2g-desktop. But the gaia profile is missing
+from the b2g-desktop build, so reftests for b2g-desktop doesn't work.
+
+We should perhaps consider an approach where we reuse buildbot puppet manifests,
+by building docker images with packer, using it's masterless puppet provisioner.
+However, we are going to need individual images for each OS, so just using a
+couple of dockerfiles for linux might be preferable.

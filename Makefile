@@ -13,13 +13,19 @@ gecko-tester:
 
 #/home/worker/mozconfigs/opt-firefox
 #/home/worker/mozilla-central/b2g/config/mozconfigs/linux64_gecko/nightly
-check:
+check-builder:
 	docker run \
 	-e "MOZCONFIG=/home/worker/mozconfigs/b2g-desktop" \
 	-e "REPOSITORY=https://hg.mozilla.org/mozilla-central/" \
-	-e "REVISION=fe40387eba1a" \
+	-e "REVISION=91be2828f17e" \
 	-ti \
-	$(TARGET)/gecko-builder ./build.sh;
+	$(TARGET)/gecko-builder:latest ./build.sh;
+
+check-tester:
+	docker run \
+	-e "TARGET_TASK=M0rn4HDfTkuH31b1XnQS2Q" \
+	-ti \
+	$(TARGET)/gecko-tester:latest ./b2g-desktop-reftests.sh;
 
 rmgarbage:
 	# Remove all docker containers:
