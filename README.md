@@ -1,36 +1,19 @@
-Gecko Builder
-=============
+Gecko Images
+============
 
-Input task:
-http://docs.taskcluster.net/tools/task-inspector/#lUjbVKk_SRi79QOshjT3Gg
+This repository contains scripts needed to build docker images for building and
+testing gecko on taskcluster with docker-worker.
 
-target.linux-x86_64.json:
-http://tasks.taskcluster.net/lUjbVKk_SRi79QOshjT3Gg/runs/1/artifacts/target.linux-x86_64.json
-
-target.linux-x86_64.tar.bz2:
-http://tasks.taskcluster.net/lUjbVKk_SRi79QOshjT3Gg/runs/1/artifacts/target.linux-x86_64.tar.bz2
-
-target.tests.zip:
-http://tasks.taskcluster.net/lUjbVKk_SRi79QOshjT3Gg/runs/1/artifacts/target.tests.zip
-
-
-
-Artifacts:
- * `/home/worker/object-folder/dist/firefox.linux-x86_64.tar.bz2`
- * `/home/worker/object-folder/dist/firefox.linux-x86_64.json`
- * `/home/worker/object-folder/dist/firefox.tests.zip`
-
-
-Task payload:
+An example task could look as follows:
 ```js
 {
-  "image":        "registry.taskcluster.net/jonasfj/gecko-builder",
+  "image":        "registry.taskcluster.net/jonasfj/gecko-builder:latest",
   "command": [
     "./build.sh"
   ],
   "env": {
     "REPOSITORY": "https://hg.mozilla.org/mozilla-central/",
-    "REVISION":   "fe40387eba1a",
+    "REVISION":   "91be2828f17e",
     "MOZCONFIG":  "/home/worker/mozconfigs/b2g-desktop"
   },
   "features": {
@@ -48,18 +31,13 @@ Task payload:
 }
 ```
 
-python scripts/scripts/desktop_unittest.py
---cfg unittests/linux_unittest.py
---mochitest-suite plain1
---download-symbols ondemand
---no-read-buildbot-config
---installer-url http://ftp.mozilla.org/pub/mozilla.org/firefox/tinderbox-builds/mozilla-inbound-linux-debug/1391797503/firefox-30.0a1.en-US.linux-i686.tar.bz2
---test-url http://ftp.mozilla.org/pub/mozilla.org/firefox/tinderbox-builds/mozilla-inbound-linux-debug/1391797503/firefox-30.0a1.en-US.linux-i686.tests.zip
+This sets the environment variables `REPOSITORY`, `REVISION` and `MOZCONFIG`,
+it then runs `build.sh` in the image
+`registry.taskcluster.net/jonasfj/gecko-builder:latest`.
+See `Makefile` for how to build images.
 
-
-python mozharness/b2g_desktop_unittest.py \
-  --cfg b2g/desktop_automation_config.py \
-  --test-url
-  --installer-url
-  --test-suite reftest \
-  --download-symbols ondemand
+The example task also declares 3 artifacts to be exacted after the task has
+finished. The `build.sh` script will make sure artifacts are moved to paths:
+ * `/home/worker/object-folder/dist/firefox.linux-x86_64.tar.bz2`
+ * `/home/worker/object-folder/dist/firefox.linux-x86_64.json`
+ * `/home/worker/object-folder/dist/firefox.tests.zip`
