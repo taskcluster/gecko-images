@@ -64,6 +64,16 @@ apt-get install -y                  \
 # Install virtualenv for use by mozharness
 pip install virtualenv;
 
+# Install some utilities, we'll be using nodejs in automation scripts, maybe we
+# shouldn't we can clean up later
+apt-get install -y                  \
+  screen                            \
+  vim                               \
+  wget                              \
+  curl                              \
+  nodejs-legacy                     \
+  ;
+
 ### Ubuntu 13.10 Configuration
 # For some reason /etc/mercurial/hgrc.d/cacerts.rc is missing from the amd64
 # mercurial package on ubuntu 13.10, a bug as been reported, see: 
