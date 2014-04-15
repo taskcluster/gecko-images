@@ -25,7 +25,7 @@ check-builder:
 
 check-tester:
 	docker run \
-	-e "TARGET_TASK=M0rn4HDfTkuH31b1XnQS2Q" \
+	-e "TARGET_TASK=ZX_pn0EvTIqlsE9Zzn4EIA" \
 	-ti \
 	$(TARGET)/gecko-tester:$(VERSION) ./b2g-desktop-reftests.sh;
 
