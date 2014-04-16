@@ -1,0 +1,15 @@
+{
+  "name":         "try-task-graph",
+  "description":  "Quick hack to try taskgraphs",
+  "version":      "0.0.1",
+  "author":       "Jonas Finnemann Jensen <jopsen@gmail.com>",
+  "private":      true,
+  "dependencies": {
+    "moment":                 "2.5.1",
+    "superagent":             "~0.16.0",
+    "superagent-promise":     "0.1.0",
+    "promise":                "4.0.0",
+    "yamljs":                 "0.1.4",
+    "lodash":                 "2.4.1"
+  }
+}

@@ -42,7 +42,6 @@ clean:
 	-docker images --no-trunc | awk '{print $$3}' | xargs docker rmi
 
 publish:
-	docker push \
-		$(TARGET)/gecko-builder \
-		$(TARGET)/gecko-tester
+	docker push $(TARGET)/gecko-builder;
+	docker push $(TARGET)/gecko-tester;
 
