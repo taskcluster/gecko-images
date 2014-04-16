@@ -3,6 +3,7 @@ INDEX		 ?= $(USER)
 VERSION	 ?= latest
 TARGET   	= $(REGISTRY)/$(INDEX)
 
+TARGET_TASK = JpGcW5ykRRq73lmY1JKLZg
 
 gecko-base:
 	docker build -t $(TARGET)/gecko-base:$(VERSION) base/
@@ -13,8 +14,6 @@ gecko-builder:
 gecko-tester:
 	docker build -t $(TARGET)/gecko-tester:$(VERSION) tester/
 
-#/home/worker/mozconfigs/opt-firefox
-#/home/worker/mozilla-central/b2g/config/mozconfigs/linux64_gecko/nightly
 check-builder:
 	docker run \
 	-e "MOZCONFIG=/home/worker/mozconfigs/b2g-desktop" \
@@ -23,11 +22,19 @@ check-builder:
 	-ti \
 	$(TARGET)/gecko-builder:$(VERSION) ./build-b2g-desktop.sh;
 
-check-tester:
+check-reftest:
 	docker run \
-	-e "TARGET_TASK=ZX_pn0EvTIqlsE9Zzn4EIA" \
+	-e "TARGET_TASK=$(TARGET_TASK)" \
+	-e "TEST_SUITE=reftest" \
 	-ti \
-	$(TARGET)/gecko-tester:$(VERSION) ./b2g-desktop-reftests.sh;
+	$(TARGET)/gecko-tester:latest ./b2g-desktop-tests.sh;
+
+check-mochitest:
+	docker run \
+	-e "TARGET_TASK=$(TARGET_TASK)" \
+	-e "TEST_SUITE=mochitest" \
+	-ti \
+	$(TARGET)/gecko-tester:latest ./b2g-desktop-tests.sh;
 
 rmgarbage:
 	# Remove all docker containers:
