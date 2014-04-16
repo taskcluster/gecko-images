@@ -45,11 +45,15 @@ finished. The `build.sh` script will make sure artifacts are moved to paths:
 
 Status
 ------
+The task-graphs and configuration that should eventually live in the tree, is
+currently located in the `in-tree/` folder. Along with `try-taskgraph.js` which
+should **not** go in the tree, but is present as a utility we can use to test
+task-graphs.
 
-We can currently build gecko and b2g-desktop. But the gaia profile is missing
-from the b2g-desktop build, so reftests for b2g-desktop doesn't work.
-
-We should perhaps consider an approach where we reuse buildbot puppet manifests,
-by building docker images with packer, using it's masterless puppet provisioner.
-However, we are going to need individual images for each OS, so just using a
-couple of dockerfiles for linux might be preferable.
+Try it with:
+```sh
+cd in-tree;
+npm install;
+node try-taskgraph.js task-graph.yml <revision>;
+```
+Make sure that `<revision>` is a revision available from `hg.mozilla.org/try`.

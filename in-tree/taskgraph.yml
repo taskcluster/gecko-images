@@ -1,0 +1,118 @@
+version:                  0.2.0
+
+#### Task-graph Parameters
+# These can be substituted into strings using {{default-worker}}.
+# Note that when posted to try the following parameters will be added, if not
+# defined here:
+#     reason:       "try-push"
+#     revision:     "<revision-hash>"
+#     repository:   'hg.mozilla.org'
+#     branch:       'try'
+#     owner:        "<email of pusher>"
+#     flags:        "<last-commit-comment>"
+#     created:      "<datetime now>"
+#     deadline:     "<datetime now + 24 hours>"
+#
+# Use there parameters to customize tasks. Note that scheduler will add
+# parameters, 'taskId:<task-label>': "<taskId>" for all tasks.
+params:
+  default-provisioner:    'aws-provisioner'
+  default-worker:         'aufs-worker'
+
+# Task-graph routing key (prefix)
+routing:                  ''
+
+# Meta-data about the task-graph
+metadata:
+  name: >
+    **Try** `{{revision}}`
+  description: |
+    Try-push with flags: `{{flags}}`, currently flags are ignored.
+  owner:                  '{{owner}}'
+  source:
+    'https://{{repository}}/{{branch}}/raw-file/{{revision}}/taskgraph.yml'
+
+# Free-form tags for the task-graph (only strings allow, max 4k allowed)
+tags:
+  reason:                 '{{reason}}'
+  try-flags:              '{{flags}}'
+
+# Tasks
+tasks:
+
+  #### Build b2g-desktop x64
+  # The key 'b2g-desktop-x64' is the task label, we'll use it to reference
+  # the task later on.
+  'b2g-desktop-x64':
+    requires:             []
+    reruns:               0
+    task:
+      version:            0.2.0
+      provisionerId:      '{{default-provisioner}}'
+      workerType:         '{{default-worker}}'
+      routing:            ''
+      timeout:            1200
+      retries:            3
+      priority:           5
+      created:            '{{created}}'
+      deadline:           '{{deadline}}'
+      payload:
+        image:            registry.taskcluster.net/jonasfj/gecko-builder:latest
+        command:
+          - ./build-b2g-desktop.sh
+        env:
+          MOZCONFIG:      '/home/worker/mozconfigs/b2g-desktop'
+          REPOSITORY:     'https://{{repository}}/{{branch}}/'    # https://hg.mozilla.org/mozilla-central/
+          REVISION:       '{{revision}}'
+        artifacts:
+          target.linux-x86_64.tar.bz2:  '/home/worker/object-folder/dist/target.linux-x86_64.tar.bz2'
+          target.linux-x86_64.json:     '/home/worker/object-folder/dist/target.linux-x86_64.json'
+          target.tests.zip:             '/home/worker/object-folder/dist/target.tests.zip'
+        features:
+          azureLiveLog:   true
+        maxRunTime:       7200
+      metadata:
+        name: >
+          Build `b2g-desktop` for linux x64
+        description: |
+          This will build `b2g-desktop` and package it with the gaia profile
+          referenced in `b2g/config/gaia.json` (in-tree).
+        owner:            '{{owner}}'
+        source:
+          'https://{{repository}}/{{branch}}/raw-file/{{revision}}/taskgraph.yml'
+      tags:
+        objective:        'build'
+
+  #### Reftests for b2g-desktop
+  'b2g-desktop-x64-reftests':
+    requires:             ['b2g-desktop-x64'] # depend on build task to finish
+    reruns:               0
+    task:
+      version:            0.2.0
+      provisionerId:      '{{default-provisioner}}'
+      workerType:         '{{default-worker}}'
+      routing:            ''
+      timeout:            600
+      retries:            3
+      priority:           5
+      created:            '{{created}}'
+      deadline:           '{{deadline}}'
+      payload:
+        image:            registry.taskcluster.net/jonasfj/ubuntu
+        command:
+          - ./b2g-desktop-reftests.sh
+        env:
+          TARGET_TASK:    '{{taskId:b2g-desktop-x64}}'
+        features:
+          azureLiveLog:   true
+        maxRunTime:       1200
+      metadata:
+        name: >
+          Run reftests on b2g-desktop
+        description: |
+          Run reftests on result from task: `{{taskId:b2g-desktop-x64}}`
+        owner:            '{{owner}}'
+        source:
+          'https://{{repository}}/{{branch}}/raw-file/{{revision}}/taskgraph.yml'
+      tags:
+        objective:        'test'
