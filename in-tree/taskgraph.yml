@@ -98,7 +98,7 @@ tasks:
       created:            '{{created}}'
       deadline:           '{{deadline}}'
       payload:
-        image:            registry.taskcluster.net/jonasfj/ubuntu
+        image:            registry.taskcluster.net/jonasfj/gecko-tester:latest
         command:
           - ./b2g-desktop-reftests.sh
         env:
