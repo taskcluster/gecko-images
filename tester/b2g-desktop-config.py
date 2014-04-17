@@ -25,5 +25,5 @@ config = {
         "mochitest": "runtestsb2g.py",
         "reftest": "runreftestb2g.py",
     },
- "in_tree_config": "config/mozharness/b2g_desktop_config.py",
+   "in_tree_config": "config/mozharness/b2g_desktop_config.py",
 }
