@@ -2,6 +2,9 @@
 
 ### Firefox Test Setup
 
+# directories for devicestorage
+mkdir Documents; mkdir Pictures; mkdir Music; mkdir Videos;
+
 # Install mozharness scripts
 hg clone http://hg.mozilla.org/build/mozharness/
 
