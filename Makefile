@@ -36,6 +36,15 @@ check-mochitest:
 	-ti \
 	$(TARGET)/gecko-tester:latest ./b2g-desktop-tests.sh;
 
+test-shell:
+	docker run \
+	-e "TARGET_TASK=$(TARGET_TASK)" \
+	-e "TEST_SUITE=mochitest" \
+	-ti \
+	-m "12g" \
+	$(TARGET)/gecko-tester:latest /bin/bash;
+
+
 rmgarbage:
 	# Remove all docker containers:
 	-docker ps -a -q -notrunc | xargs docker rm
