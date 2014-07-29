@@ -55,15 +55,6 @@ apt-get install -y                  \
   software-properties-common        \
   ;
 
-# Python pip is needed to install virtualenv as used by mozharness later, while
-# this isn't necessary for building I doubt it'll do much harm.
-apt-get install -y                  \
-  python-pip                        \
-  ;
-
-# Install virtualenv for use by mozharness
-pip install virtualenv;
-
 # Install some utilities, we'll be using nodejs in automation scripts, maybe we
 # shouldn't we can clean up later
 apt-get install -y                  \
