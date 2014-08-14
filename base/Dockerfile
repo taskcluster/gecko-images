@@ -12,8 +12,7 @@ ENV           SHELL         /bin/bash
 ENV           USER          worker
 ENV           LOGNAME       worker
 
-# Declare default user and default working folder
-USER          worker
+# Declare default working folder
 WORKDIR       /home/worker
 
 # Set a default command useful for debugging

@@ -1,0 +1,50 @@
+#! /bin/bash -vex
+
+# Configure some defaults so this can be run easily without much knowledge
+# of the details.
+if [ -z "$REPOSITORY" ];
+then
+  REPOSITORY=https://hg.mozilla.org/mozilla-central/
+fi
+
+if [ -z "$TARGET" ];
+then
+ TARGET=emulator
+fi
+
+if [ -z "$B2G_CONFIG" ];
+then
+  B2G_CONFIG=emulator-ics
+fi
+
+# A revision number is required
+test ! -z "$REVISION"
+
+# First check if the mozharness directory is available. This is intended to be
+# used locally in development to test mozharness changes:
+#
+#   $ docker -v your_mozharness:/home/worker/mozharness ...
+#
+if [ ! -d mozharness ];
+then
+  hg clone https://hg.mozilla.org/build/mozharness mozharness;
+fi
+
+./mozharness/scripts/b2g_build.py \
+  --config b2g/taskcluster-emulator.py \
+  --disable-mock \
+  --work-dir=build \
+  --log-level=debug \
+  --target=$TARGET \
+  --b2g-config-dir=$B2G_CONFIG \
+  --checkout-revision=$REVISION \
+  --repo=$REPOSITORY
+
+# Move files into artifact locations!
+mkdir -p artifacts
+
+mv build/sources.xml artifacts/sources.xml
+mv build/out/target/product/generic/tests/gaia-tests.zip artifacts/gaia-tests.zip
+mv build/out/target/product/generic/tests/b2g-*.zip artifacts/b2g-tests.zip
+mv build/out/emulator.tar.gz artifacts/emulator.tar.gz
+mv build/objdir-gecko/dist/b2g-*.crashreporter-symbols.zip artifacts/b2g-crashreporter-symbols.zip

@@ -20,6 +20,9 @@ gecko-base:
 gecko-builder:
 	docker build -t $(TARGET)/gecko-builder:$(VERSION) builder/
 
+gecko-b2g-builder: gecko-base
+	docker build -t $(TARGET)/b2g-build:$(VERSION) b2g-build/
+
 gecko-tester:
 	docker build -t $(TARGET)/gecko-tester:$(VERSION) tester/
 
@@ -30,6 +33,13 @@ check-builder:
 	-e "REVISION=68c042c2b2e5" \
 	-ti \
 	$(TARGET)/gecko-builder:$(VERSION) ./build-b2g-desktop.sh;
+
+check-b2g-builder:
+	docker run \
+	-e "REPOSITORY=https://hg.mozilla.org/mozilla-central/" \
+	-e "REVISION=68c042c2b2e5" \
+	-ti \
+	$(TARGET)/b2g-build:$(VERSION) ./bin/build
 
 b2g-desktop-reftest:
 	docker run \
