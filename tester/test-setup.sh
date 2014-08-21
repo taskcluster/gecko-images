@@ -13,6 +13,7 @@ apt-get install -y                \
         libglu1-mesa              \
         libncurses5:i386          \
         libsdl1.2debian:i386      \
+        pulseaudio                \
         python-pip                \
         ;
 pip install virtualenv;
