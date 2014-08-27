@@ -7,13 +7,13 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 
 # Clone B2G
-git clone https://github.com/mozilla-b2g/B2G /home/worker/build
+git clone -q https://github.com/mozilla-b2g/B2G /home/worker/build
 
 # Run config.sh to get .repo setup
 cd /home/worker/build
 
 wget http://hg.mozilla.org/mozilla-central/raw-file/default/b2g/config/emulator-ics/sources.xml
-./config.sh emulator sources.xml
+./config.sh -q emulator sources.xml
 
 # Clone mozilla-central
 hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/checkouts/mozilla-central
