@@ -38,6 +38,7 @@ RUN dpkg --add-architecture i386; \
       libgl1-mesa-dev \
       libglapi-mesa:i386 \
       libgl1-mesa-glx:i386 \
+      python-pip \
       zip \
       openjdk-6-jdk;
 
