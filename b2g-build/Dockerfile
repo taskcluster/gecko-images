@@ -1,4 +1,4 @@
-FROM          registry.taskcluster.net/mshal/gecko-base:latest
+FROM          quay.io/mozilla/gecko-base
 MAINTAINER    James Lal <jlal@mozilla.com>
 
 # Many of these instructions are from:

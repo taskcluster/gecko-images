@@ -1,4 +1,4 @@
-FROM          registry.taskcluster.net/jonasfj/ubuntu
+FROM          quay.io/mozilla/ubuntu:13.10
 MAINTAINER    Jonas Finnemann Jensen <jopsen@gmail.com>
 
 # Run system setup script

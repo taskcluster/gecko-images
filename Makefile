@@ -1,7 +1,7 @@
-REGISTRY ?= registry.taskcluster.net
-INDEX		 ?= $(USER)
+REGISTRY ?= quay.io
+INDEX    ?= $(USER)
 VERSION	 ?= latest
-TARGET   	= $(REGISTRY)/$(INDEX)
+TARGET   = $(REGISTRY)/$(INDEX)
 
 B2G_EMULATOR_MOCHITEST_CHUNKS = 9
 B2G_EMULATOR_CRASHTEST_CHUNKS = 3
