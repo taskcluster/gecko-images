@@ -1,7 +1,7 @@
-REGISTRY ?= registry.taskcluster.net
-INDEX		 ?= $(USER)
+REGISTRY ?= quay.io
+INDEX    ?= $(USER)
 VERSION	 ?= latest
-TARGET   	= $(REGISTRY)/$(INDEX)
+TARGET   = $(REGISTRY)/$(INDEX)
 
 B2G_EMULATOR_MOCHITEST_CHUNKS = 9
 B2G_EMULATOR_CRASHTEST_CHUNKS = 3
@@ -20,8 +20,8 @@ gecko-base:
 gecko-builder:
 	docker build -t $(TARGET)/gecko-builder:$(VERSION) builder/
 
-gecko-b2g-builder: gecko-base
-	docker build -t $(TARGET)/b2g-build:$(VERSION) b2g-build/
+b2g-builder: gecko-base
+	docker build -t $(TARGET)/b2g-builder:$(VERSION) b2g-builder/
 
 gecko-tester:
 	docker build -t $(TARGET)/gecko-tester:$(VERSION) tester/
@@ -39,7 +39,7 @@ check-b2g-builder:
 	-e "REPOSITORY=https://hg.mozilla.org/mozilla-central/" \
 	-e "REVISION=68c042c2b2e5" \
 	-ti \
-	$(TARGET)/b2g-build:$(VERSION) ./bin/build
+	$(TARGET)/b2g-builder:$(VERSION) ./bin/build
 
 b2g-desktop-reftest:
 	docker run \

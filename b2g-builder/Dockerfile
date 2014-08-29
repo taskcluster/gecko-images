@@ -1,4 +1,4 @@
-FROM          registry.taskcluster.net/mshal/gecko-base:latest
+FROM          quay.io/mozilla/gecko-base
 MAINTAINER    James Lal <jlal@mozilla.com>
 
 # Many of these instructions are from:
@@ -38,6 +38,7 @@ RUN dpkg --add-architecture i386; \
       libgl1-mesa-dev \
       libglapi-mesa:i386 \
       libgl1-mesa-glx:i386 \
+      python-pip \
       zip \
       openjdk-6-jdk;
 
@@ -78,6 +79,21 @@ ENV HG_SHARE_BASE_DIR /home/worker/checkouts
 ENV CCACHE_DIR /home/worker/ccache
 ENV CCACHE_COMPRESS 1
 ENV CCACHE_UMASK 002
-ADD build-setup.sh /tmp/build-setup.sh
 
-RUN ["/tmp/build-setup.sh"]
+# This image never ever pushes to git but repo tool requires username and email
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
+
+# Clone B2G
+RUN git clone -q https://github.com/mozilla-b2g/B2G /home/worker/build
+
+# Run config.sh to get .repo setup
+RUN cd /home/worker/build; \
+    wget http://hg.mozilla.org/mozilla-central/raw-file/default/b2g/config/emulator-ics/sources.xml; \
+    ./config.sh -q emulator sources.xml
+
+# Clone mozilla-central
+RUN hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/checkouts/mozilla-central
+
+# Setup the hg share
+RUN hg share /home/worker/checkouts/mozilla-central /home/worker/build/gecko

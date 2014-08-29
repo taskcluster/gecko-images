@@ -1,4 +1,4 @@
-FROM          registry.taskcluster.net/jonasfj/gecko-base
+FROM          quay.io/mozilla/gecko-base
 MAINTAINER    Jonas Finnemann Jensen <jopsen@gmail.com>
 
 # Add utilities and configuration
