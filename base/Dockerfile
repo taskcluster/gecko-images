@@ -1,4 +1,4 @@
-FROM          quay.io/mozilla/ubuntu:13.10
+FROM          quay.io/mozilla/ubuntu:12.04
 MAINTAINER    Jonas Finnemann Jensen <jopsen@gmail.com>
 
 # Run system setup script

@@ -8,6 +8,7 @@ ADD           b2g-emulator-tests.sh         /home/worker/b2g-emulator-tests.sh
 ADD           b2g-desktop-config.py         /home/worker/b2g-desktop-config.py
 ADD           test-setup.sh                 /tmp/test-setup.sh
 ADD           dot-config                    /home/worker/.config
+ADD           dot-pulse                     /home/worker/.pulse
 ADD           emulator_automation_config.py /home/worker/emulator_automation_config.py
 
 ENV           DISPLAY         :0

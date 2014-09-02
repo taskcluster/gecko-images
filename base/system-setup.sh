@@ -62,19 +62,8 @@ apt-get install -y                  \
   vim                               \
   wget                              \
   curl                              \
-  nodejs-legacy                     \
+  nodejs                            \
   ;
-
-### Ubuntu 13.10 Configuration
-# For some reason /etc/mercurial/hgrc.d/cacerts.rc is missing from the amd64
-# mercurial package on ubuntu 13.10, a bug as been reported, see: 
-# https://bugs.launchpad.net/ubuntu/+source/mercurial/+bug/1292231
-# Until resolved the following workaround should do the trick.
-#
-# Note, this a 13.10 specific bug, debian unstable and 14.04 does not suffer
-# from this issue, as files have moved to mercurial-common.
-echo -e '[web]\ncacerts = /etc/ssl/certs/ca-certificates.crt' \
-         > /etc/mercurial/hgrc.d/cacerts.rc;
 
 ### Clean up from setup
 # Remove cached .deb packages. Cached package takes up a lot of space and
