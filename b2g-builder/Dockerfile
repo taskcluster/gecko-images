@@ -59,7 +59,7 @@ RUN pip install awscli
 # primary harness script and build
 
 # There are a few assumptions made by entrypoint as to the state of the slaves
-# we _could_ run the pupet scripts here but for the b2g builds at least we can
+# we _could_ run the puppet scripts here but for the b2g builds at least we can
 # easily maintain the small number of deps here.
 RUN mkdir -p $HOME/bin/; \
     REMOTE="https://github.com/mozilla/build-puppet/raw/master/modules/packages/files"; \
