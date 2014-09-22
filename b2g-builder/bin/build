@@ -33,7 +33,7 @@ fi
 ./mozharness/scripts/b2g_build.py \
   --config b2g/taskcluster-emulator.py \
   --disable-mock \
-  --work-dir=build \
+  --work-dir=volume_cache/B2G \
   --log-level=debug \
   --target=$TARGET \
   --b2g-config-dir=$B2G_CONFIG \
@@ -43,8 +43,8 @@ fi
 # Move files into artifact locations!
 mkdir -p artifacts
 
-mv build/sources.xml artifacts/sources.xml
-mv build/out/target/product/generic/tests/gaia-tests.zip artifacts/gaia-tests.zip
-mv build/out/target/product/generic/tests/b2g-*.zip artifacts/b2g-tests.zip
-mv build/out/emulator.tar.gz artifacts/emulator.tar.gz
-mv build/objdir-gecko/dist/b2g-*.crashreporter-symbols.zip artifacts/b2g-crashreporter-symbols.zip
+mv volume_cache/B2G/sources.xml artifacts/sources.xml
+mv volume_cache/B2G/out/target/product/generic/tests/gaia-tests.zip artifacts/gaia-tests.zip
+mv volume_cache/B2G/out/target/product/generic/tests/b2g-*.zip artifacts/b2g-tests.zip
+mv volume_cache/B2G/out/emulator.tar.gz artifacts/emulator.tar.gz
+mv volume_cache/B2G/objdir-gecko/dist/b2g-*.crashreporter-symbols.zip artifacts/b2g-crashreporter-symbols.zip

@@ -35,9 +35,12 @@ check-builder:
 	$(TARGET)/gecko-builder:$(VERSION) ./build-b2g-desktop.sh;
 
 check-b2g-builder:
+	$(if $(VOLUME_CACHE),,@echo "Please run 'make $@ VOLUME_CACHE=/path/to/cache' to cache the B2G repositories on your local host"; exit 1)
+	@mkdir -p $(VOLUME_CACHE)
 	docker run \
 	-e "REPOSITORY=https://hg.mozilla.org/mozilla-central/" \
 	-e "REVISION=68c042c2b2e5" \
+	-v $(VOLUME_CACHE):/home/worker/volume_cache \
 	-ti \
 	$(TARGET)/b2g-builder:$(VERSION) ./bin/build
 

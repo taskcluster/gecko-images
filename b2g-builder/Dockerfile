@@ -59,7 +59,7 @@ RUN pip install awscli
 # primary harness script and build
 
 # There are a few assumptions made by entrypoint as to the state of the slaves
-# we _could_ run the pupet scripts here but for the b2g builds at least we can
+# we _could_ run the puppet scripts here but for the b2g builds at least we can
 # easily maintain the small number of deps here.
 RUN mkdir -p $HOME/bin/; \
     REMOTE="https://github.com/mozilla/build-puppet/raw/master/modules/packages/files"; \
@@ -75,25 +75,10 @@ RUN chown -R worker:worker bin .hgrc; \
 USER worker
 
 ENV PATH /home/worker/bin:$PATH
-ENV HG_SHARE_BASE_DIR /home/worker/checkouts
-ENV CCACHE_DIR /home/worker/ccache
+ENV CCACHE_DIR /home/worker/volume_cache/ccache
 ENV CCACHE_COMPRESS 1
 ENV CCACHE_UMASK 002
 
 # This image never ever pushes to git but repo tool requires username and email
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
-
-# Clone B2G
-RUN git clone -q https://github.com/mozilla-b2g/B2G /home/worker/build
-
-# Run config.sh to get .repo setup
-RUN cd /home/worker/build; \
-    wget http://hg.mozilla.org/mozilla-central/raw-file/default/b2g/config/emulator-ics/sources.xml; \
-    ./config.sh -q emulator sources.xml
-
-# Clone mozilla-central
-RUN hg clone https://hg.mozilla.org/mozilla-central/ /home/worker/checkouts/mozilla-central
-
-# Setup the hg share
-RUN hg share /home/worker/checkouts/mozilla-central /home/worker/build/gecko
